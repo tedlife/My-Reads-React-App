@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Toast } from 'antd-mobile';
+import * as _ from 'lodash';
 import * as BooksAPI from '../BooksAPI';
 import Book from '../book';
 
@@ -13,8 +14,8 @@ class Search extends Component {
         }
     }
 
-    handleKeyUp = e => {
-        let query = e.target.value.trim();
+    handleKeyUp = _.debounce(value => {
+        let query = value.trim();
 
         if (query !== '') {
             Toast.loading('Loading', 20);
@@ -43,7 +44,7 @@ class Search extends Component {
             this.setState({ books: [] })
         }
 
-    }
+    }, 300)
 
     componentDidUpdate() {
         Toast.hide()
@@ -68,7 +69,7 @@ class Search extends Component {
                         <input
                             type="text"
                             placeholder="Search by title or author"
-                            onKeyUp={e => this.handleKeyUp(e)}
+                            onKeyUp={e => this.handleKeyUp(e.target.value)}
                         />
 
                     </div>
