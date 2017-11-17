@@ -15,3 +15,4 @@ This is my first project with React and React Router.
 ## Credits
 
 * [Ant Design mobile](https://github.com/ant-design/ant-design-mobile)
+* [Lodash.js](https://lodash.com/)
