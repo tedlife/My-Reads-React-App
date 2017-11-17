@@ -1,6 +1,6 @@
 # My Reads React App
 
-[Project Online Preview](http://jinyunmo.com/My-Reads-React-App/)
+[Project Online Preview](http://jinyunmo.com/My-Reads-React-App/build/)
 
 ## Intro
 
