@@ -34,6 +34,9 @@ class Search extends Component {
                             books: newResults
                         }
                     })
+                } else {
+                    this.setState({ books: [] });
+                    Toast.hide();
                 }
             })
         } else {
