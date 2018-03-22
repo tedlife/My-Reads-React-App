@@ -32,35 +32,35 @@ class BooksApp extends Component {
 
   shelfChange = book => {
     Toast.loading("Moving", 20);
+
     const shelf = book.shelf;
-    let hasBook = false;
 
-    BooksAPI.update(book, shelf).then(() => {
-      this.setState(prevState => {
-        let prevBooks = prevState.books;
+    BooksAPI.update(book, shelf)
+      .then(() => {
+        this.setState(prevState => {
+          let newBooks;
 
-        let newBooks = prevBooks.map(prevBook => {
-          if (prevBook.id === book.id) {
-            hasBook = true;
-            return book;
+          const restOfBooksInShelf = prevState.books.filter(
+            preBook => preBook.id !== book.id
+          );
+
+          if (shelf !== "none") {
+            newBooks = restOfBooksInShelf.concat([book]);
+            Toast.info("Book moved.", 1);
           } else {
-            return prevBook;
+            newBooks = restOfBooksInShelf;
+            Toast.info("Book removed.", 1);
           }
+
+          return {
+            books: newBooks
+          };
         });
-
-        if (!hasBook && shelf !== "none") {
-          newBooks.push(book);
-          Toast.info("Book added.", 1);
-        } else if (hasBook && shelf === "none") {
-          newBooks.splice(newBooks.indexOf(book), 1);
-          Toast.info("Book removed.", 1);
-        }
-
-        return {
-          books: newBooks
-        };
+      })
+      .catch(e => {
+        Toast.hide();
+        Toast.info(`${e}`, 5);
       });
-    });
   };
 
   render() {
