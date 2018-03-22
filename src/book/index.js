@@ -9,7 +9,7 @@ class Book extends Component {
   };
 
   render() {
-    const book = this.props.book;
+    const { book } = this.props;
     const image = book.imageLinks
       ? book.imageLinks.thumbnail
       : "https://books.google.com/googlebooks/images/no_cover_thumb.gif";
