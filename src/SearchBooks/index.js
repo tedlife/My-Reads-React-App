@@ -15,25 +15,30 @@ class Search extends Component {
   }
 
   handleKeyUp = _.debounce(value => {
-    let query = value.trim();
+    const query = value.trim();
 
     if (query !== "") {
       Toast.loading("Loading", 20);
-      BooksAPI.search(query, 20).then(results => {
-        console.log("results", results);
-        if (Array.isArray(results)) {
+      BooksAPI.search(query, 20).then(searchBooks => {
+        if (Array.isArray(searchBooks)) {
           this.setState((prevState, props) => {
             const shelfBooks = props.books;
-            let newResults = results.map(result => {
-              for (let shelfBook of shelfBooks) {
-                if (result.id === shelfBook.id) {
-                  result.shelf = shelfBook.shelf;
-                }
-              }
-              return result;
+
+            const newSearchBooks = searchBooks.map(searchBook => {
+              // 如果该图书在书架中，会返回该图书，否则返回 undefined
+              const searchBookInshelfBook = shelfBooks.find(
+                shelfBook => shelfBook.id === searchBook.id
+              );
+              return {
+                ...searchBook,
+                shelf: searchBookInshelfBook
+                  ? searchBookInshelfBook.shelf
+                  : "none"
+              };
             });
+
             return {
-              books: newResults
+              books: newSearchBooks
             };
           });
         } else {
