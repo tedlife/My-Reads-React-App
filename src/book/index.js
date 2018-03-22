@@ -30,7 +30,7 @@ class Book extends Component {
             />
             <div className="book-shelf-changer">
               <select value={shelf} onChange={e => this.handleSelect(e, book)}>
-                <option value="none" disabled>
+                <option value="moveTo" disabled>
                   Move to...
                 </option>
                 <option value="currentlyReading">Currently Reading</option>
